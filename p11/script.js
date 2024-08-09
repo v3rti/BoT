@@ -1,28 +1,46 @@
 const videoPlayer = document.querySelector('.player__video');
 const playVideo = document.querySelector('.toggle');
-const videoProgress = document.querySelector('.progress__filled');
-const volume = document.getElementsByName('volume')[0];
-const playbackRate = document.getElementsByName('playbackRate')[0];
+const videoProgress = document.querySelector('.progress');
+const videoProgressFill = document.querySelector('.progress__filled');
+const playerSlider = document.querySelectorAll('.player__slider');
+const buttons = document.querySelectorAll('.player__button');
 
 let isPlaying = false;
 
 videoPlayer.addEventListener('timeupdate', e => {
-  videoProgress.setAttribute("style", `flex-basis: ${(videoPlayer.currentTime / videoPlayer.duration * 100)}%;`)
+  videoProgressFill.setAttribute("style", `flex-basis: ${(videoPlayer.currentTime / videoPlayer.duration * 100)}%;`)
 })
 
-volume.addEventListener('mousemove', e => {
-  videoPlayer.volume = volume.value;
+videoProgress.addEventListener('click', e => {
+  const fillTo = e.offsetX / e.currentTarget.clientWidth * 100
+  videoProgressFill.setAttribute("style", `flex-basis: ${fillTo}%;`)
+  videoPlayer.currentTime = fillTo / 100 * videoPlayer.duration
 })
+
+playerSlider.forEach(slider => {
+  slider.addEventListener('mousemove', e => {
+    videoPlayer[slider.name] = slider.value;
+  })
+});
 
 playVideo.addEventListener('click', e => {
   if (!isPlaying) {
     videoPlayer.play();
-    isPlaying = true;
     playVideo.textContent = "❚❚";
+    isPlaying = true;
 
   }else{
     videoPlayer.pause();
-    isPlaying = false;
     playVideo.textContent = "►";
+    isPlaying = false;
   }
+})
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', e => {
+    if (btn.classList.contains('toggle'))
+      return
+    const skipTime = parseInt(e.currentTarget.dataset.skip, 10);
+    videoPlayer.currentTime <= 10 && skipTime === -10 ? videoPlayer.currentTime = 0 : videoPlayer.currentTime = parseInt(videoPlayer.currentTime, 10) + skipTime;
+  })
 })
