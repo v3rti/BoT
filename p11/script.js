@@ -12,14 +12,13 @@ videoPlayer.addEventListener('timeupdate', e => {
 
 volume.addEventListener('mousemove', e => {
   videoPlayer.volume = volume.value;
-  console.log(e.currentTarget.value)
 })
 
 playVideo.addEventListener('click', e => {
   if (!isPlaying) {
     videoPlayer.play();
     isPlaying = true;
-    playVideo.textContent = "❚❚"
+    playVideo.textContent = "❚❚";
 
   }else{
     videoPlayer.pause();
