@@ -4,11 +4,9 @@ const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'N
 
 const keywords = ['The', 'A', 'An'];
 
-bands.sort((a, b) => {
-  const tempStrA = keywords.includes(a.split(' ')[0]) ? a.split(' ').slice(1).join(' ') : a
-  const tempStrB = keywords.includes(b.split(' ')[0]) ? b.split(' ').slice(1).join(' ') : b
-  return tempStrA.localeCompare(tempStrB);
-})
+const tempStr = word => keywords.includes(word.split(' ')[0]) ? word.split(' ').slice(1).join(' ') : word;
+
+bands.sort((a, b) => tempStr(a).localeCompare(tempStr(b)))
 
 bands.map(band => {
   ul.innerHTML += `<li>${band}</li>`
