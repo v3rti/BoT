@@ -6,7 +6,7 @@ const keywords = ['The', 'A', 'An'];
 
 const tempStr = word => keywords.includes(word.split(' ')[0]) ? word.split(' ').slice(1).join(' ') : word;
 
-bands.sort((a, b) => tempStr(a).localeCompare(tempStr(b)))
+bands.sort((a, b) => tempStr(a) > tempStr(b) ? 1 : -1)
 
 bands.map(band => {
   ul.innerHTML += `<li>${band}</li>`
